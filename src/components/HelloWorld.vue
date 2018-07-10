@@ -1,5 +1,11 @@
 <template>
   <div class="hello">
+    <button
+      class="btn btn-primary btn-margin"
+      v-if="authenticated"
+      @click="logout()">
+        Log Out
+    </button>
     <h1>{{ msg }}</h1>
     <p>
       For guide and recipes on how to configure / customize this project,<br>

@@ -1,29 +1,112 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+  <div>
+    <div class="container"
+      v-if="!authenticated"
+    >
+      <img src="./assets/omi-qroo-logo.png" class="omi-qroo-logo--homepage" />
+      <a
+        class="button is-link"
+        @click="login()">
+          Log In
+      </a>
     </div>
-    <router-view/>
+
+    <nav class="navbar is-transparent"
+      v-if="authenticated"
+    >
+      <div class="navbar-brand">
+        <a class="navbar-item">
+          <img
+            src="./assets/omi-qroo-logo.png"
+            alt="Olimpiada de Informática Quintana Roo"
+            width="112"
+            height="28">
+        </a>
+        <div class="navbar-burger burger" data-target="navbarExampleTransparentExample">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+
+      <div id="navbarExampleTransparentExample" class="navbar-menu">
+        <div class="navbar-start">
+          <router-link class="navbar-item" to="/dashboard">
+            Home
+          </router-link>
+          <router-link class="navbar-item" to="/hello">
+            Test
+          </router-link>
+          <a class="navbar-item"
+            @click="logout()">
+              Log Out
+          </a>
+        </div>
+
+        <div class="navbar-end">
+          <div class="navbar-item">
+            <div class="field is-grouped">
+              <p class="control">
+                <a class="button" href="https://facebook.com/omiqroo" target="_blank">
+                  <span class="icon">
+                    <i class="fab fa-facebook-square"></i>
+                  </span>
+                </a>
+              </p>
+              <p class="control">
+                <a class="button" href="https://www.youtube.com/channel/UCaqljU1BgPVfQF36xp7bpyA" target="_blank">
+                  <span class="icon">
+                    <i class="fab fa-youtube-square"></i>
+                  </span>
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <router-view
+        :auth="auth"
+        :authenticated="authenticated">
+      </router-view>
+    </div>
   </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+<script>
+
+import AuthService from './Auth/AuthService';
+
+const auth = new AuthService();
+
+// eslint-disable-next-line
+const { login, logout, authenticated, authNotifier } = auth;
+
+export default {
+  name: 'app',
+  data() {
+    authNotifier.on('authChange', (authState) => {
+      this.authenticated = authState.authenticated;
+    });
+
+    return {
+      auth,
+      authenticated,
+    };
+  },
+  methods: {
+    login,
+    logout,
+  },
+};
+</script>
+
+<style scoped>
+.omi-qroo-logo--homepage {
+  width: 80%;
+  height: auto;
+  margin: 0 auto;
 }
 </style>

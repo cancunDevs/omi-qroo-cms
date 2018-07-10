@@ -1,21 +1,35 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from './views/Home.vue';
-import About from './views/About.vue';
+import App from './App.vue';
+import Callback from './components/Callback.vue';
+import Dashboard from './components/Dashboard.vue';
+import Hello from './components/HelloWorld.vue';
 
 Vue.use(Router);
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Home,
+      name: 'app',
+      component: App,
     },
     {
-      path: '/about',
-      name: 'about',
-      component: About,
+      path: '/callback',
+      name: 'callback',
+      component: Callback,
     },
+    {
+      path: '/dashboard',
+      name: 'dashboard',
+      component: Dashboard,
+    },
+    {
+      path: '/hello',
+      name: 'Hello',
+      component: Hello,
+    },
+    { path: '*', redirect: '/' },
   ],
 });
